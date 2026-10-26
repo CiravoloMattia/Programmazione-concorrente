@@ -1,0 +1,283 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mnew file mode 100644[m
+[1mindex 0000000..89c60a5[m
+[1m--- /dev/null[m
+[1m+++ b/.gitignore[m
+[36m@@ -0,0 +1,12 @@[m
+[32m+[m[32m/tmp/[m
+[32m+[m[32m__pycache__/[m
+[32m+[m[32m*.pyc[m
+[32m+[m[32m*.o[m
+[32m+[m[32ma.out[m
+[32m+[m[32m*.log[m
+[32m+[m[32m*.tmp[m
+[32m+[m[32m*.swp[m
+[32m+[m[32m*~[m
+[32m+[m[32m.env[m
+[32m+[m[32m.env.*[m
+[32m+[m[32m!.env.example[m
+[1mdiff --git a/README.md b/README.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1454e17[m
+[1m--- /dev/null[m
+[1m+++ b/README.md[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32m# Programmazione concorrente[m
+[32m+[m
+[32m+[m[32mEsercitazioni di programmazione concorrente di Mattia Ciravolo, classe 4CINF[m
+[32m+[m
+[32m+[m[32mQuesto repository contiene i programmi, gli esercizi e le risorse sui processi Linux.[m
+[32m+[m[32mIl programma dell'esercizio Git e GitHub è es01b-hello-world/hello.py.[m
+[32m+[m
+[32m+[m[32mSu Web4Student lavoro nella cartella personale ~/processi.[m
+[32m+[m[32mPer eseguire Hello World uso: python3 es01b-hello-world/hello.py[m
+[32m+[m[32mLa sottocartella tmp contiene file temporanei e viene esclusa da Git.[m
+[1mdiff --git a/es01.c b/es01.c[m
+[1mnew file mode 100644[m
+[1mindex 0000000..c32bd5a[m
+[1m--- /dev/null[m
+[1m+++ b/es01.c[m
+[36m@@ -0,0 +1,14 @@[m
+[32m+[m[32m/**[m
+[32m+[m[32m * fork01.c - © FB - 7/12/20[m
+[32m+[m[32m * pid = identificativo del processo in esecuzione[m[41m [m
+[32m+[m[32m *[m[41m [m
+[32m+[m[32m * fb@rpi2:~/sis2/01-fork $ gcc fork01.c[m
+[32m+[m[32m * fb@rpi2:~/sis2/01-fork $ ./a.out[m
+[32m+[m[32m */[m
+[32m+[m[32m#include <stdio.h>   // printf[m
+[32m+[m[32m#include <unistd.h>  // getpid[m
+[32m+[m
+[32m+[m[32mint main(int argc, char **argv) {[m
+[32m+[m
+[32m+[m[32m  printf("\nAvvio del processo con pid=%d\n", getpid());[m
+[32m+[m[32m}[m
+[1mdiff --git a/es01b-hello-world/hello.py b/es01b-hello-world/hello.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc696c2[m
+[1m--- /dev/null[m
+[1m+++ b/es01b-hello-world/hello.py[m
+[36m@@ -0,0 +1,12 @@[m
+[32m+[m[32m#!/usr/bin/env python3[m
+[32m+[m[32m"""Hello World: dal programma Python al processo in esecuzione."""[m
+[32m+[m[32mimport os[m
+[32m+[m
+[32m+[m[32mnome = 'Mattia'[m
+[32m+[m[32mmessaggio = "Hello World dell'esercizio b."[m
+[32m+[m
+[32m+[m[32mprint('Hello, World!')[m
+[32m+[m[32mprint(f'Studente: {nome}')[m
+[32m+[m[32mprint(messaggio)[m
+[32m+[m[32m# Il sistema operativo assegna un PID al processo che esegue il programma.[m
+[32m+[m[32mprint(f'PID del processo: {os.getpid()}')[m
+[1mdiff --git a/es02.c b/es02.c[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b8acf98[m
+[1m--- /dev/null[m
+[1m+++ b/es02.c[m
+[36m@@ -0,0 +1,29 @@[m
+[32m+[m
+[32m+[m[32m/* fork03b.c - © FB - 7/12/20[m[41m  [m
+[32m+[m[32m * Creazione di un processo figlio[m[41m [m
+[32m+[m[32m * i processi padre e figlio procedono in modo concorrente[m
+[32m+[m[32m */[m
+[32m+[m[32m#include <stdio.h>   // printf[m
+[32m+[m[32m#include <unistd.h>  // getpid, fork[m
+[32m+[m
+[32m+[m[32mint main() {[m
+[32m+[m[41m  [m
+[32m+[m[32m  printf("Codice padre! (pid: %d)\n", getpid());[m
+[32m+[m[32m  int pid = fork();[m
+[32m+[m[32m  if (pid==0) {[m
+[32m+[m[32m    /* codice figlio */[m
+[32m+[m	[32mfor(int i=0; i<30; i++) {[m
+[32m+[m		[32mprintf("%d - Sono il figlio! (pid: %d)\n", i, getpid());[m
+[32m+[m		[32msleep(1);[m
+[32m+[m	[32m}[m
+[32m+[m[32m  } else if (pid>0) {[m
+[32m+[m[32m    /* codice padre */[m
+[32m+[m	[32mfor(int i=0; i<30; i++) {[m
+[32m+[m		[32mprintf("%d - Sono il padre! (pid: %d)\n", i, getpid());[m
+[32m+[m		[32msleep(1);[m
+[32m+[m	[32m}[m
+[32m+[m[32m  } else { // pid<0[m
+[32m+[m[32m    printf("Creazione del processo figlio fallita!\n");[m
+[32m+[m[32m  }[m
+[32m+[m[32m  printf("Codice comune a padre e figlio! (pid: %d)\n", getpid());[m
+[32m+[m[32m}[m
+[1mdiff --git a/es02b.c b/es02b.c[m
+[1mnew file mode 100644[m
+[1mindex 0000000..72349cd[m
+[1m--- /dev/null[m
+[1m+++ b/es02b.c[m
+[36m@@ -0,0 +1,34 @@[m
+[32m+[m[32m#include <stdio.h>[m
+[32m+[m[32m#include <stdlib.h>[m
+[32m+[m[32m#include <unistd.h>[m
+[32m+[m[32m#include <sys/wait.h>[m
+[32m+[m
+[32m+[m[32mint main() {[m
+[32m+[m[32m    // Il processo padre inizializza le variabili[m
+[32m+[m[32m    int base = 5;[m
+[32m+[m[32m    int altezza = 10;[m
+[32m+[m[32m    int risultato;[m
+[32m+[m
+[32m+[m[32m    // Creazione del processo figlio[m
+[32m+[m[32m    pid_t pid = fork();[m
+[32m+[m
+[32m+[m[32m    if (pid < 0) {[m
+[32m+[m[32m        // Errore nella creazione del processo[m
+[32m+[m[32m        perror("Errore durante la fork");[m
+[32m+[m[32m        return 1;[m
+[32m+[m[32m    }[m[41m [m
+[32m+[m[32m    else if (pid == 0) {[m
+[32m+[m[32m        // --- CODICE DEL PROCESSO FIGLIO ---[m
+[32m+[m[32m        risultato = 2 * (base + altezza);[m
+[32m+[m[32m        printf("[PROCESSO FIGLIO - PID: %d] Perimetro del rettangolo: %d\n", getpid(), risultato);[m
+[32m+[m[32m        exit(0);[m
+[32m+[m[32m    }[m[41m [m
+[32m+[m[32m    else {[m
+[32m+[m[32m        risultato = base * altezza;[m
+[32m+[m[32m        printf("[PROCESSO PADRE - PID: %d] Area del rettangolo: %d\n", getpid(), risultato);[m
+[32m+[m
+[32m+[m[32m        wait(NULL);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    return 0;[m
+[32m+[m[32m}[m
+[1mdiff --git a/es02c.c b/es02c.c[m
+[1mnew file mode 100644[m
+[1mindex 0000000..50a8be4[m
+[1m--- /dev/null[m
+[1m+++ b/es02c.c[m
+[36m@@ -0,0 +1,110 @@[m
+[32m+[m[32m#include <stdio.h>[m
+[32m+[m[32m#include <stdlib.h>[m
+[32m+[m[32m#include <unistd.h>[m
+[32m+[m[32m#include <sys/wait.h>[m
+[32m+[m[32m#include <sys/mman.h>[m
+[32m+[m
+[32m+[m[32m// Definizione costante per il numero di lampeggi[m
+[32m+[m[32m#define NUM_LAMPEGGI 10[m
+[32m+[m
+[32m+[m[32m// Puntatore alla memoria condivisa per la variabile LED[m
+[32m+[m[32mint *led;[m
+[32m+[m
+[32m+[m[32m// Funzione che gestisce la logica di lampeggio del processo figlio[m
+[32m+[m[32mvoid gestisci_lampeggio() {[m
+[32m+[m[32m    char *colore;[m
+[32m+[m[32m    useconds_t intervallo_us; // Intervallo espresso in microsecondi per usleep()[m
+[32m+[m
+[32m+[m[32m    // Selezione della configurazione in base al valore della variabile led[m
+[32m+[m[32m    switch (*led) {[m
+[32m+[m[32m        case 1:[m
+[32m+[m[32m            colore = "VERDE";[m
+[32m+[m[32m            intervallo_us = 300000; // 0.3 secondi[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        case 2:[m
+[32m+[m[32m            colore = "ROSSO";[m
+[32m+[m[32m            intervallo_us = 700000; // 0.7 secondi[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        case 3:[m
+[32m+[m[32m            colore = "GIALLO";[m
+[32m+[m[32m            intervallo_us = 1200000; // 1.2 secondi[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        default:[m
+[32m+[m[32m            printf("[FIGLIO] Codice LED non valido.\n");[m
+[32m+[m[32m            exit(1);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    printf("\n--- Avvio lampeggio LED %s (PID Figlio: %d) ---\n", colore, getpid());[m
+[32m+[m
+[32m+[m[32m    for (int i = 1; i <= NUM_LAMPEGGI; i++) {[m
+[32m+[m[32m        // Accensione (qui andrebbe inserito il comando fisico per il GPIO)[m
+[32m+[m[32m        printf("[FIGLIO %d] LED %s ACCESO (%d/%d)\n", getpid(), colore, i, NUM_LAMPEGGI);[m
+[32m+[m[32m        usleep(intervallo_us);[m
+[32m+[m
+[32m+[m[32m        // Spegnimento (qui andrebbe inserito il comando fisico per il GPIO)[m
+[32m+[m[32m        printf("[FIGLIO %d] LED %s SPENTO (%d/%d)\n", getpid(), colore, i, NUM_LAMPEGGI);[m
+[32m+[m[32m        usleep(intervallo_us);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    printf("--- Terminato lampeggio LED %s ---\n\n", colore);[m
+[32m+[m[32m    exit(0); // Il processo figlio termina dopo il ciclo[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mint main() {[m
+[32m+[m[32m    char comando;[m
+[32m+[m
+[32m+[m[32m    // Allocazione di memoria condivisa per la variabile 'led'[m
+[32m+[m[32m    led = mmap(NULL, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);[m
+[32m+[m[32m    if (led == MAP_FAILED) {[m
+[32m+[m[32m        perror("Errore mmap");[m
+[32m+[m[32m        return 1;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    printf("=== CONTROLLO LED MULTI-PROCESSO ===\n");[m
+[32m+[m[32m    printf("Comandi disponibili:\n");[m
+[32m+[m[32m    printf(" 'v' -> LED Verde  (10 lampeggi ogni 0.3s)\n");[m
+[32m+[m[32m    printf(" 'r' -> LED Rosso  (10 lampeggi ogni 0.7s)\n");[m
+[32m+[m[32m    printf(" 'g' -> LED Giallo (10 lampeggi ogni 1.2s)\n");[m
+[32m+[m[32m    printf(" 'q' -> Uscita dal programma\n");[m
+[32m+[m
+[32m+[m[32m    while (1) {[m
+[32m+[m[32m        printf("\nInserisci un comando: ");[m
+[32m+[m[32m        scanf(" %c", &comando); // Lo spazio prima di %c ignora eventuali invii residui[m
+[32m+[m
+[32m+[m[32m        if (comando == 'q') {[m
+[32m+[m[32m            printf("Chiusura del programma...\n");[m
+[32m+[m[32m            break;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Impostazione del valore della variabile 'led' nel padre[m
+[32m+[m[32m        if (comando == 'v') {[m
+[32m+[m[32m            *led = 1;[m
+[32m+[m[32m        } else if (comando == 'r') {[m
+[32m+[m[32m            *led = 2;[m
+[32m+[m[32m        } else if (comando == 'g') {[m
+[32m+[m[32m            *led = 3;[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            printf("Comando non valido. Riprova.\n");[m
+[32m+[m[32m            continue;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Creazione del processo figlio dopo aver impostato la variabile led[m
+[32m+[m[32m        pid_t pid = fork();[m
+[32m+[m
+[32m+[m[32m        if (pid < 0) {[m
+[32m+[m[32m            perror("Errore nella fork");[m
+[32m+[m[32m            return 1;[m
+[32m+[m[32m        } else if (pid == 0) {[m
+[32m+[m[32m            // --- CODICE DEL PROCESSO FIGLIO ---[m
+[32m+[m[32m            gestisci_lampeggio();[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            // --- CODICE DEL PROCESSO PADRE ---[m
+[32m+[m[32m            // Il padre attende che il figlio finisca prima di chiedere un nuovo comando[m
+[32m+[m[32m            wait(NULL);[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    // Liberazione della memoria condivisa[m
+[32m+[m[32m    munmap(led, sizeof(int));[m
+[32m+[m[32m    return 0;[m
+[32m+[m[32m}[m
+[1mdiff --git a/es03.c b/es03.c[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9f9bfb0[m
+[1m--- /dev/null[m
+[1m+++ b/es03.c[m
+[36m@@ -0,0 +1,14 @@[m
+[32m+[m[32m/**[m
+[32m+[m[32m * fork02.c - © FB - 7/12/20[m[41m [m
+[32m+[m[32m * e' possibile vedere il pid dei processi in esecuzione tramite il comando ps -u[m
+[32m+[m[32m * $./a.out & #avvia il programma in background[m[41m [m
+[32m+[m[32m * digitare fg e poi CTRL-C per terminare il processo in background[m
+[32m+[m[32m */[m
+[32m+[m[32m#include <stdio.h>   // printf[m
+[32m+[m[32m#include <unistd.h>  // getpid[m
+[32m+[m
+[32m+[m[32mint main(int argc, char **argv) {[m
+[32m+[m
+[32m+[m[32m  printf("\nAvvio del processo con pid=%d\n", getpid());[m
+[32m+[m[32m  for(;;) {;}[m
+[32m+[m[32m}[m
