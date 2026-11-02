@@ -8,3 +8,4 @@ Il programma dell'esercizio Git e GitHub è es01b-hello-world/hello.py.
 Su Web4Student lavoro nella cartella personale ~/processi.
 Per eseguire Hello World uso: python3 es01b-hello-world/hello.py
 La sottocartella tmp contiene file temporanei e viene esclusa da Git.
+Ho clonato il repository e verificato il programma sul PC di casa.
